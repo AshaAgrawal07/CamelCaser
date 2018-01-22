@@ -23,6 +23,12 @@ public class CamelCaserTest {
     }
 
     @Test
+    public void spaceInMiddle() {
+
+        assertEquals("thisIsMyString", CamelCaser.camelCase("this       is my string "));
+    }
+
+    @Test
     public void UpperCaseAtBeginning() {
 
         assertEquals("thisIsMyString", CamelCaser.camelCase("This is my string"));
@@ -40,48 +46,62 @@ public class CamelCaserTest {
         assertEquals("h3110W0r1d", CamelCaser.camelCase("h3110 w0r1d"));
     }
 
+    //------- assertEquals are done
+    //------- starting false cases
 
-    @Test
+    @Test (expected = IllegalArgumentException.class)
     public void digitBeginningWord() {
-        try {
+        CamelCaser.camelCase("707this is my string"); //expect illegal argument exception
+        /*try {
             CamelCaser.camelCase("707this is my string");
             throw new IllegalArgumentException("Invalid format");
 
-        } catch (exception e) {
-            System.out.println("Caught illegalArgumentException for word beginning with a number");
-        }
+        } catch (Exception e) {
+            System.out.println("Caught illegalArgumentException for word beginning with a number" + e.getMessage());
+        }*/
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void digitsAsWord() {
-        try {
+        CamelCaser.camelCase("this is my string 1010101"); //expect illegal argument exception
+        /*try {
             CamelCaser.camelCase("this is my string 1010101");
             throw new IllegalArgumentException("Invalid format");
-
-        } catch (exception e) {
-            System.out.println("Caught illegalArgumentException for number by itself");
-        }
+        } catch (Exception e) {
+            System.out.println("Caught illegalArgumentException for number by itself" + e.getMessage());
+        }*/
     }
 
-    @Test
+    @Test (expected = IllegalArgumentException.class)
     public void nullTest() {
-        try {
+        CamelCaser.camelCase(null); //expect illegal argument exception for the null
+        /*try {
             CamelCaser.camelCase(null);
             throw new IllegalArgumentException("null input");
-
-        } catch (exception e) {
-            System.out.println("Caught illegalArgumentException for null string");
-        }
+        } catch (Exception e) {
+            System.out.println("Caught illegalArgumentException for null string" + e.getMessage());
+        }*/
     }
 
-    @Test
-    public void illegalCharacters() {
-        try {
-            CamelCaser.camelCase(null);
-            throw new IllegalArgumentException("invalid character");
+    @Test(expected = IllegalArgumentException.class)
+    public void emptyCountsAsNullTest() {
+        CamelCaser.camelCase(""); //expect illegal argument exception for the null
+        /*try {
+            CamelCaser.camelCase("");
+            throw new IllegalArgumentException("null input");
+        } catch (Exception e) {
+            System.out.println("Caught illegalArgumentException for null string" + e.getMessage());
+        }*/
+    }
 
-        } catch (exception e) {
-            System.out.println("Caught illegalArgumentException for invalid character");
-        }
+    @Test (expected = IllegalArgumentException.class)
+    public void illegalCharacters() {
+        CamelCaser.camelCase(">.< hi!"); //expect illegal argument exception for invalid character
+        /*try {
+            CamelCaser.camelCase(">.< hi!");
+            throw new IllegalArgumentException("invalid character");
+        } catch (Exception e) {
+            System.out.println("Caught illegalArgumentException for invalid character" + e.getMessage());
+        }*/
     }
 }
