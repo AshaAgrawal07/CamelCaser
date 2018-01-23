@@ -1,12 +1,17 @@
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import static org.junit.Assert.*;
 
 public class CamelCaserTest {
 
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
+
     @Test
     public void handoutTestCamelCase() {
-
+        System.out.println(CamelCaser.camelCase("this is my string"));
         assertEquals("thisIsMyString", CamelCaser.camelCase("this is my string"));
     }
 
@@ -25,7 +30,7 @@ public class CamelCaserTest {
     @Test
     public void spaceInMiddle() {
 
-        assertEquals("thisIsMyString", CamelCaser.camelCase("this       is my string "));
+            assertEquals("thisIsMyString", CamelCaser.camelCase("this       is my string "));
     }
 
     @Test
@@ -52,12 +57,15 @@ public class CamelCaserTest {
 
     @Test (expected = IllegalArgumentException.class)
     public void digitBeginningWord() {
-        try {
+        thrown.expect(IllegalArgumentException.class);
+        thrown.expectMessage(ErrorConstants.INVALID_FORMAT);
+        CamelCaser.camelCase("707this is my string"); //expect illegal argument exception
+        /*try {
             CamelCaser.camelCase("707this is my string"); //expect illegal argument exception
             fail("My method didn't throw when I expected it to");
         } catch (Exception e){
             System.out.println("Caught illegalArgumentException for word beginning with a number" + e.getMessage());
-        }
+        }*/
 
         /*try {
             CamelCaser.camelCase("707this is my string");
@@ -70,12 +78,16 @@ public class CamelCaserTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void digitsAsWord() {
-        try {
+        thrown.expect(IllegalArgumentException.class);
+        thrown.expectMessage(ErrorConstants.INVALID_FORMAT);
+        CamelCaser.camelCase("this is my string 1010101"); //expect illegal argument exception
+
+        /*try {
             CamelCaser.camelCase("this is my string 1010101"); //expect illegal argument exception
             fail("My method didn't throw when I expected it to");
         } catch (Exception e){
             System.out.println("Caught illegalArgumentException for number by itself" + e.getMessage());
-        }
+        }*/
 
         /*try {
             CamelCaser.camelCase("this is my string 1010101");
@@ -87,12 +99,15 @@ public class CamelCaserTest {
 
     @Test (expected = IllegalArgumentException.class)
     public void nullTest() {
-        try {
+        thrown.expect(IllegalArgumentException.class);
+        thrown.expectMessage(ErrorConstants.INVALID_FORMAT);
+        CamelCaser.camelCase(null); //expect illegal argument exception for the null
+        /*try {
             CamelCaser.camelCase(null); //expect illegal argument exception for the null
             fail("My method didn't throw when I expected it to");
         } catch (Exception e){
             System.out.println("Caught illegalArgumentException for null string" + e.getMessage());
-        }
+        }*/
 
         /*try {
             CamelCaser.camelCase(null);
@@ -104,12 +119,15 @@ public class CamelCaserTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void emptyCountsAsNullTest() {
-        try {
+        thrown.expect(IllegalArgumentException.class);
+        thrown.expectMessage(ErrorConstants.INVALID_FORMAT);
+        CamelCaser.camelCase(""); //expect illegal argument exception for the null
+        /*try {
             CamelCaser.camelCase(""); //expect illegal argument exception for the null
             fail("My method didn't throw when I expected it to");
         } catch (Exception e){
             System.out.println("Caught illegalArgumentException for null string" + e.getMessage());
-        }
+        }*/
         /*try {
             CamelCaser.camelCase("");
             throw new IllegalArgumentException("null input");
@@ -120,12 +138,15 @@ public class CamelCaserTest {
 
     @Test (expected = IllegalArgumentException.class)
     public void illegalCharacters() {
-        try {
+        thrown.expect(IllegalArgumentException.class);
+        thrown.expectMessage(ErrorConstants.INVALID_CHARACTER);
+        CamelCaser.camelCase(">.< hi!"); //expect illegal argument exception for invalid character
+        /*try {
             CamelCaser.camelCase(">.< hi!"); //expect illegal argument exception for invalid character
             fail("My method didn't throw when I expected it to");
         } catch (Exception e){
             System.out.println("Caught illegalArgumentException for invalid character" + e.getMessage());
-        }
+        }*/
 
         /*try {
             CamelCaser.camelCase(">.< hi!");
